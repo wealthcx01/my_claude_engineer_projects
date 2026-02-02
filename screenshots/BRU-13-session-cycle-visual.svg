@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <style>
+      .bg { fill: #1a1a1a; }
+      .text-white { fill: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      .text-gray { fill: #999999; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      .text-pomodoro { fill: #ff6347; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      .text-short-break { fill: #4caf50; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      .text-long-break { fill: #2196f3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      .circle-bg { fill: #2a2a2a; }
+      .circle-pomodoro { stroke: #ff6347; fill: none; stroke-width: 8; }
+      .circle-short-break { stroke: #4caf50; fill: none; stroke-width: 8; }
+      .circle-long-break { stroke: #2196f3; fill: none; stroke-width: 8; }
+      .arrow { fill: none; stroke: #666666; stroke-width: 3; marker-end: url(#arrowhead); }
+      .box { fill: #2a2a2a; stroke: #3a3a3a; stroke-width: 2; }
+      .box-pomodoro { fill: #ff6347; }
+      .box-short-break { fill: #4caf50; }
+      .box-long-break { fill: #2196f3; }
+      .badge { fill: #ff6347; }
+      .badge-text { fill: #ffffff; font-family: monospace; font-weight: bold; font-size: 14px; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666666" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="1400" height="900"/>
+
+  <!-- Title -->
+  <rect class="badge" x="20" y="20" width="100" height="30" rx="5"/>
+  <text class="badge-text" x="70" y="42" text-anchor="middle">BRU-13</text>
+  <text class="text-white" x="140" y="42" font-size="24" font-weight="bold">Session Types - Auto-Advance Implementation</text>
+
+  <!-- Section 1: Initial State -->
+  <text class="text-white" x="50" y="100" font-size="18" font-weight="600">1. Initial State: Work Session 1</text>
+
+  <g transform="translate(150, 130)">
+    <circle class="circle-bg" r="80" cx="0" cy="0"/>
+    <circle class="circle-pomodoro" r="80" cx="0" cy="0" stroke-dasharray="502.65" stroke-dashoffset="0" transform="rotate(-90)"/>
+    <text class="text-pomodoro" x="0" y="-25" font-size="12" font-weight="600" text-anchor="middle">POMODORO</text>
+    <text class="text-white" x="0" y="10" font-size="36" font-weight="300" text-anchor="middle">25:00</text>
+    <text class="text-gray" x="0" y="30" font-size="11" text-anchor="middle">Session 1 of 4</text>
+  </g>
+
+  <rect class="box" x="280" y="130" width="300" height="120" rx="8"/>
+  <text class="text-white" x="300" y="160" font-size="14" font-weight="600">Initial Display:</text>
+  <text class="text-gray" x="300" y="185" font-size="12">• Timer shows 25:00</text>
+  <text class="text-gray" x="300" y="205" font-size="12">• Label: "Pomodoro" (red)</text>
+  <text class="text-gray" x="300" y="225" font-size="12">• Counter: "Session 1 of 4"</text>
+  <text class="text-gray" x="300" y="245" font-size="12">• Progress ring: Red (#ff6347)</text>
+
+  <!-- Arrow to next state -->
+  <path class="arrow" d="M 150 270 L 150 320"/>
+  <text class="text-gray" x="170" y="300" font-size="11">Timer reaches 0:00</text>
+  <text class="text-gray" x="170" y="315" font-size="11">AUTO-ADVANCE</text>
+
+  <!-- Section 2: Short Break -->
+  <text class="text-white" x="50" y="360" font-size="18" font-weight="600">2. Auto-Advance to Short Break</text>
+
+  <g transform="translate(150, 390)">
+    <circle class="circle-bg" r="80" cx="0" cy="0"/>
+    <circle class="circle-short-break" r="80" cx="0" cy="0" stroke-dasharray="502.65" stroke-dashoffset="0" transform="rotate(-90)"/>
+    <text class="text-short-break" x="0" y="-25" font-size="12" font-weight="600" text-anchor="middle">SHORT BREAK</text>
+    <text class="text-white" x="0" y="10" font-size="36" font-weight="300" text-anchor="middle">05:00</text>
+    <text class="text-gray" x="0" y="30" font-size="11" text-anchor="middle">(counter hidden)</text>
+  </g>
+
+  <rect class="box" x="280" y="390" width="300" height="120" rx="8"/>
+  <text class="text-white" x="300" y="420" font-size="14" font-weight="600">After Work Session 1:</text>
+  <text class="text-gray" x="300" y="445" font-size="12">• Timer shows 05:00</text>
+  <text class="text-gray" x="300" y="465" font-size="12">• Label: "Short Break" (green)</text>
+  <text class="text-gray" x="300" y="485" font-size="12">• Counter: Hidden during break</text>
+  <text class="text-gray" x="300" y="505" font-size="12">• Progress ring: Green (#4caf50)</text>
+
+  <!-- Flow diagram on right side -->
+  <text class="text-white" x="700" y="100" font-size="18" font-weight="600">Complete Session Flow (4 Pomodoro Cycles)</text>
+
+  <!-- Cycle boxes -->
+  <rect class="box-pomodoro" x="700" y="130" width="140" height="60" rx="6"/>
+  <text class="text-white" x="770" y="155" font-size="13" font-weight="600" text-anchor="middle">Work Session 1</text>
+  <text class="text-white" x="770" y="175" font-size="11" text-anchor="middle">25:00 • Session 1/4</text>
+
+  <path class="arrow" d="M 850 160 L 890 160"/>
+
+  <rect class="box-short-break" x="900" y="130" width="120" height="60" rx="6"/>
+  <text class="text-white" x="960" y="155" font-size="13" font-weight="600" text-anchor="middle">Short Break</text>
+  <text class="text-white" x="960" y="175" font-size="11" text-anchor="middle">5:00</text>
+
+  <path class="arrow" d="M 1030 160 L 1070 160"/>
+
+  <rect class="box-pomodoro" x="1080" y="130" width="140" height="60" rx="6"/>
+  <text class="text-white" x="1150" y="155" font-size="13" font-weight="600" text-anchor="middle">Work Session 2</text>
+  <text class="text-white" x="1150" y="175" font-size="11" text-anchor="middle">25:00 • Session 2/4</text>
+
+  <path class="arrow" d="M 1230 160 L 1270 160"/>
+
+  <rect class="box-short-break" x="1280" y="130" width="90" height="60" rx="6"/>
+  <text class="text-white" x="1325" y="160" font-size="11" font-weight="600" text-anchor="middle">Short</text>
+  <text class="text-white" x="1325" y="177" font-size="11" font-weight="600" text-anchor="middle">Break</text>
+
+  <!-- Second row -->
+  <rect class="box-pomodoro" x="700" y="220" width="140" height="60" rx="6"/>
+  <text class="text-white" x="770" y="245" font-size="13" font-weight="600" text-anchor="middle">Work Session 3</text>
+  <text class="text-white" x="770" y="265" font-size="11" text-anchor="middle">25:00 • Session 3/4</text>
+
+  <path class="arrow" d="M 850 250 L 890 250"/>
+
+  <rect class="box-short-break" x="900" y="220" width="120" height="60" rx="6"/>
+  <text class="text-white" x="960" y="245" font-size="13" font-weight="600" text-anchor="middle">Short Break</text>
+  <text class="text-white" x="960" y="265" font-size="11" text-anchor="middle">5:00</text>
+
+  <path class="arrow" d="M 1030 250 L 1070 250"/>
+
+  <rect class="box-pomodoro" x="1080" y="220" width="140" height="60" rx="6"/>
+  <text class="text-white" x="1150" y="245" font-size="13" font-weight="600" text-anchor="middle">Work Session 4</text>
+  <text class="text-white" x="1150" y="265" font-size="11" text-anchor="middle">25:00 • Session 4/4</text>
+
+  <path class="arrow" d="M 1230 250 L 1270 250"/>
+
+  <!-- Long Break -->
+  <rect class="box-long-break" x="1280" y="220" width="90" height="60" rx="6"/>
+  <text class="text-white" x="1325" y="245" font-size="11" font-weight="600" text-anchor="middle">Long</text>
+  <text class="text-white" x="1325" y="260" font-size="11" font-weight="600" text-anchor="middle">Break</text>
+  <text class="text-white" x="1325" y="275" font-size="11" text-anchor="middle">15:00</text>
+
+  <!-- Loop back -->
+  <path class="arrow" d="M 1325 290 L 1325 330 L 770 330 L 770 300" stroke-dasharray="5,5"/>
+  <text class="text-gray" x="1040" y="345" font-size="11" text-anchor="middle">↻ Cycle repeats - Counter resets to "Session 1 of 4"</text>
+
+  <!-- Implementation details box -->
+  <rect class="box" x="700" y="380" width="670" height="240" rx="8"/>
+  <text class="text-white" x="720" y="410" font-size="16" font-weight="600">Key Implementation Details</text>
+
+  <text class="text-white" x="720" y="440" font-size="13" font-weight="600">Session Durations:</text>
+  <text class="text-gray" x="740" y="460" font-size="12">• Work Session (Pomodoro): 25:00 (1500 seconds)</text>
+  <text class="text-gray" x="740" y="478" font-size="12">• Short Break: 5:00 (300 seconds)</text>
+  <text class="text-gray" x="740" y="496" font-size="12">• Long Break: 15:00 (900 seconds) - after every 4 work sessions</text>
+
+  <text class="text-white" x="720" y="525" font-size="13" font-weight="600">Auto-Advance Logic:</text>
+  <text class="text-gray" x="740" y="545" font-size="12">• Timer countdown reaches 0:00 → pauseTimer() → advanceToNextSession()</text>
+  <text class="text-gray" x="740" y="563" font-size="12">• Pomodoro count increments after each work session</text>
+  <text class="text-gray" x="740" y="581" font-size="12">• If pomodoroCount % 4 === 0: Long Break, else: Short Break</text>
+  <text class="text-gray" x="740" y="599" font-size="12">• Session counter: (pomodoroCount % 4) + 1 displays current position in cycle</text>
+
+  <!-- Feature highlights box -->
+  <rect class="box" x="50" y="550" width="600" height="240" rx="8"/>
+  <text class="text-white" x="70" y="580" font-size="16" font-weight="600">✓ All Acceptance Criteria Met</text>
+
+  <rect class="box-pomodoro" x="70" y="600" width="20" height="20" rx="3"/>
+  <text class="text-gray" x="100" y="615" font-size="12">Work session defaults to 25:00 ✓</text>
+
+  <rect class="box-short-break" x="70" y="630" width="20" height="20" rx="3"/>
+  <text class="text-gray" x="100" y="645" font-size="12">Short break is 5:00 ✓</text>
+
+  <rect class="box-long-break" x="70" y="660" width="20" height="20" rx="3"/>
+  <text class="text-gray" x="100" y="675" font-size="12">Long break is 15:00 (after 4 work sessions) ✓</text>
+
+  <text class="text-gray" x="70" y="705" font-size="12">✓ Auto-advance works when timer reaches 0</text>
+  <text class="text-gray" x="70" y="725" font-size="12">✓ Session type displayed to user (Pomodoro/Short Break/Long Break)</text>
+  <text class="text-gray" x="70" y="745" font-size="12">✓ Session counter resets after long break</text>
+  <text class="text-gray" x="70" y="765" font-size="12">✓ Sessions cycle correctly through the entire flow</text>
+
+  <!-- Color legend -->
+  <text class="text-white" x="50" y="830" font-size="14" font-weight="600">Visual Feedback - Color-Coded Progress Ring:</text>
+  <circle class="circle-pomodoro" r="15" cx="70" cy="855" stroke-width="4"/>
+  <text class="text-gray" x="95" y="860" font-size="12">Red (#ff6347) = Work/Pomodoro sessions</text>
+
+  <circle class="circle-short-break" r="15" cx="370" cy="855" stroke-width="4"/>
+  <text class="text-gray" x="395" y="860" font-size="12">Green (#4caf50) = Short Break</text>
+
+  <circle class="circle-long-break" r="15" cx="630" cy="855" stroke-width="4"/>
+  <text class="text-gray" x="655" y="860" font-size="12">Blue (#2196f3) = Long Break</text>
+
+  <!-- Test mode note -->
+  <rect class="box" x="700" y="640" width="670" height="100" rx="8"/>
+  <text class="text-white" x="720" y="670" font-size="14" font-weight="600">Testing Feature:</text>
+  <text class="text-gray" x="720" y="695" font-size="12">Fast Mode (/?fast=true) - All sessions become 5 seconds for rapid testing</text>
+  <text class="text-gray" x="720" y="715" font-size="12">Enables complete cycle verification in ~45 seconds instead of ~2 hours</text>
+
+  <!-- Footer -->
+  <text class="text-gray" x="700" y="880" font-size="11">Files Modified: src/main.js (+60 lines), index.html (+1 line), src/styles.css (+10 lines)</text>
+</svg>
