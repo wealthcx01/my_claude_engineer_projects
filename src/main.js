@@ -26,6 +26,7 @@ const resetBtn = document.getElementById('reset-btn');
 const skipBtn = document.getElementById('skip-btn');
 const progressCircle = document.querySelector('.progress-ring-circle');
 const completedDotsContainer = document.getElementById('completed-dots');
+const muteBtn = document.getElementById('mute-btn');
 
 // Progress ring calculation
 const radius = 140;
@@ -34,6 +35,117 @@ const circumference = 2 * Math.PI * radius;
 // Initialize progress ring
 progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
 progressCircle.style.strokeDashoffset = '0';
+
+// Audio state
+let isMuted = localStorage.getItem('pomodoroMuted') === 'true';
+
+// Web Audio API setup
+let audioContext = null;
+
+function initAudioContext() {
+    if (!audioContext) {
+        try {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        } catch (e) {
+            console.error('Web Audio API not supported:', e);
+        }
+    }
+    return audioContext;
+}
+
+// Play notification sound using Web Audio API
+function playNotificationSound() {
+    if (isMuted) return;
+
+    const ctx = initAudioContext();
+    if (!ctx) return;
+
+    // Resume audio context if it was suspended (required by browser autoplay policies)
+    if (ctx.state === 'suspended') {
+        ctx.resume();
+    }
+
+    try {
+        // Create oscillator for a pleasant bell-like sound
+        const oscillator1 = ctx.createOscillator();
+        const oscillator2 = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+
+        // Connect nodes
+        oscillator1.connect(gainNode);
+        oscillator2.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        // Set frequencies for a pleasant chord (C and E notes)
+        oscillator1.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+        oscillator2.frequency.setValueAtTime(659.25, ctx.currentTime); // E5
+
+        // Use sine wave for smooth sound
+        oscillator1.type = 'sine';
+        oscillator2.type = 'sine';
+
+        // Create envelope for natural sound decay
+        const now = ctx.currentTime;
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(0.3, now + 0.01); // Quick attack
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.8); // Gradual decay
+
+        // Start and stop oscillators
+        oscillator1.start(now);
+        oscillator2.start(now);
+        oscillator1.stop(now + 0.8);
+        oscillator2.stop(now + 0.8);
+
+        // Add a second note for a complete notification
+        setTimeout(() => {
+            const osc3 = ctx.createOscillator();
+            const osc4 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+
+            osc3.connect(gain2);
+            osc4.connect(gain2);
+            gain2.connect(ctx.destination);
+
+            osc3.frequency.setValueAtTime(659.25, ctx.currentTime); // E5
+            osc4.frequency.setValueAtTime(783.99, ctx.currentTime); // G5
+
+            osc3.type = 'sine';
+            osc4.type = 'sine';
+
+            const now2 = ctx.currentTime;
+            gain2.gain.setValueAtTime(0, now2);
+            gain2.gain.linearRampToValueAtTime(0.25, now2 + 0.01);
+            gain2.gain.exponentialRampToValueAtTime(0.01, now2 + 0.8);
+
+            osc3.start(now2);
+            osc4.start(now2);
+            osc3.stop(now2 + 0.8);
+            osc4.stop(now2 + 0.8);
+        }, 300);
+    } catch (e) {
+        console.error('Error playing notification sound:', e);
+    }
+}
+
+// Toggle mute
+function toggleMute() {
+    isMuted = !isMuted;
+    localStorage.setItem('pomodoroMuted', isMuted.toString());
+    updateMuteButton();
+}
+
+// Update mute button appearance
+function updateMuteButton() {
+    if (muteBtn) {
+        if (isMuted) {
+            muteBtn.classList.add('muted');
+            muteBtn.title = 'Notifications muted - Click to unmute';
+        } else {
+            muteBtn.classList.remove('muted');
+            muteBtn.title = 'Notifications enabled - Click to mute';
+        }
+    }
+}
 
 // LocalStorage functions for completed pomodoros
 function getTodayDate() {
@@ -152,8 +264,8 @@ function startTimer() {
         } else {
             // Timer completed - auto-advance to next session
             pauseTimer();
+            playNotificationSound(); // Play sound when timer completes
             advanceToNextSession();
-            // Could add notification sound here
         }
     }, 1000);
 }
@@ -267,6 +379,9 @@ function toggleTimer() {
 startPauseBtn.addEventListener('click', toggleTimer);
 resetBtn.addEventListener('click', resetTimer);
 skipBtn.addEventListener('click', skipSession);
+if (muteBtn) {
+    muteBtn.addEventListener('click', toggleMute);
+}
 
 // Initialize completed pomodoros from localStorage
 completedPomodoros = loadCompletedPomodoros();
@@ -277,3 +392,4 @@ updateProgressRing();
 updateProgressRingColor();
 updateSessionLabelColor();
 updateCompletedDotsDisplay();
+updateMuteButton();

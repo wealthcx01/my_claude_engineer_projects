@@ -207,6 +207,60 @@ body {
     transform: none !important;
 }
 
+/* Audio Controls */
+.audio-controls {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-mute {
+    background-color: transparent;
+    border: 2px solid #3a3a3a;
+    color: #ffffff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.5rem;
+    padding: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-mute:hover {
+    background-color: #2a2a2a;
+    border-color: #4a4a4a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.btn-mute:active {
+    transform: translateY(0);
+}
+
+.btn-mute.muted {
+    opacity: 0.4;
+}
+
+.btn-mute.muted .sound-icon::after {
+    content: '🔕';
+    position: absolute;
+}
+
+.btn-mute.muted .sound-icon {
+    position: relative;
+}
+
+.sound-icon {
+    display: inline-block;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .timer-container {
