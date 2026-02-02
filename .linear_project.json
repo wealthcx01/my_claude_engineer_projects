@@ -1,0 +1,41 @@
+{
+  "project_id": "e464eae8-24e9-49fd-9a4b-08340742d603",
+  "project_name": "Pomodoro Timer App",
+  "project_slug": "72812b5179f1",
+  "meta_issue_id": "BRU-10",
+  "team_key": "BRU",
+  "total_issues": 5,
+  "created_at": "2026-02-02T12:14:59.041Z",
+  "feature_issues": [
+    {
+      "id": "BRU-5",
+      "title": "Timer Display - Countdown UI with Progress Ring",
+      "priority": "High",
+      "status": "Backlog"
+    },
+    {
+      "id": "BRU-6",
+      "title": "Timer Controls - Start, Pause, Reset, and Skip",
+      "priority": "High",
+      "status": "Backlog"
+    },
+    {
+      "id": "BRU-7",
+      "title": "Session Types - Work, Short Break, and Long Break Rotation",
+      "priority": "High",
+      "status": "Backlog"
+    },
+    {
+      "id": "BRU-8",
+      "title": "Session Counter - Track Completed Pomodoros with Persistence",
+      "priority": "Medium",
+      "status": "Backlog"
+    },
+    {
+      "id": "BRU-9",
+      "title": "Audio Notification - Gentle Sound on Timer Completion",
+      "priority": "Medium",
+      "status": "Backlog"
+    }
+  ]
+}

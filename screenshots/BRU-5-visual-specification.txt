@@ -1,0 +1,161 @@
+═══════════════════════════════════════════════════════════════════
+    BRU-5: TIMER DISPLAY - VISUAL UI SPECIFICATION
+═══════════════════════════════════════════════════════════════════
+
+URL: http://localhost:5173
+Theme: Dark (#1a1a1a background)
+Accent: Tomato Red (#ff6347)
+
+═══════════════════════════════════════════════════════════════════
+                        VISUAL LAYOUT
+═══════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────┐
+│                    Dark Background #1a1a1a                      │
+│                                                                 │
+│                                                                 │
+│                                                                 │
+│                      ╭─────────────╮                            │
+│                     ╱               ╲                           │
+│                    │   ┌─────────┐   │                          │
+│                   │    │         │    │                         │
+│                   │    │  25:00  │    │  ← Large white text    │
+│                   │    │         │    │     (4rem, centered)   │
+│                    │   └─────────┘   │                          │
+│                     ╲               ╱                           │
+│                      ╰─────────────╯                            │
+│                    Tomato Red Ring #ff6347                      │
+│                    (SVG circle, 280px diameter)                 │
+│                                                                 │
+│                                                                 │
+│                   ┌─────────┐  ┌─────────┐                     │
+│                   │  START  │  │  RESET  │                     │
+│                   └─────────┘  └─────────┘                     │
+│                   Tomato Red    Dark Gray                       │
+│                                                                 │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════
+                      COMPONENT BREAKDOWN
+═══════════════════════════════════════════════════════════════════
+
+1. PROGRESS RING
+   - Type: SVG circle (300×300px viewBox)
+   - Stroke: #ff6347 (tomato red), 8px width
+   - Background ring: #2a2a2a at 20% opacity
+   - Radius: 140px from center
+   - Behavior: Shrinks clockwise as time decreases
+   - Animation: 0.3s ease transition on stroke-dashoffset
+
+2. TIMER DISPLAY
+   - Text: "25:00" (MM:SS format)
+   - Font: System UI font stack (-apple-system, Segoe UI, etc.)
+   - Size: 4rem (64px)
+   - Weight: 300 (light)
+   - Color: #ffffff (white)
+   - Position: Centered inside progress ring
+   - Letter spacing: 0.05em
+   - Tabular numbers: Yes (fixed width digits)
+
+3. START/PAUSE BUTTON
+   - Label: "START" (changes to "PAUSE" when running)
+   - Background: #ff6347 (tomato red)
+   - Text: White, uppercase, bold (600)
+   - Padding: 1rem × 2.5rem
+   - Border radius: 50px (pill shape)
+   - Hover: Lifts 2px, brighter red (#ff7f5e), glowing shadow
+   - Active: Returns to original position
+
+4. RESET BUTTON
+   - Label: "RESET"
+   - Background: #2a2a2a (dark gray)
+   - Text: White, uppercase, bold (600)
+   - Padding: 1rem × 2.5rem
+   - Border radius: 50px (pill shape)
+   - Hover: Lifts 2px, lighter gray (#3a3a3a)
+   - Active: Returns to original position
+
+═══════════════════════════════════════════════════════════════════
+                      BEHAVIOR SPECIFICATION
+═══════════════════════════════════════════════════════════════════
+
+INITIAL STATE:
+- Timer shows: 25:00
+- Progress ring: Fully visible (0% offset)
+- Start button: Shows "START"
+- State: Paused
+
+AFTER CLICKING START:
+- Button changes to: "PAUSE"
+- Timer begins: 24:59, 24:58, 24:57...
+- Progress ring: Shrinks proportionally
+- Updates: Every 1 second
+
+WHILE RUNNING (e.g., at 20:00 remaining):
+- Timer shows: 20:00
+- Progress ring: 80% visible (20% consumed)
+- Ring offset: 175.929px (879.646 * 0.2)
+
+AFTER CLICKING PAUSE:
+- Button changes to: "START"
+- Timer freezes: Current time remains
+- Progress ring: Stops at current position
+
+AFTER CLICKING RESET:
+- Timer returns to: 25:00
+- Progress ring: Fully visible again
+- Button shows: "START"
+- State: Paused
+
+WHEN TIMER REACHES 00:00:
+- Timer shows: 00:00
+- Progress ring: Completely hidden (100% offset)
+- Automatically pauses
+- Button shows: "START"
+
+═══════════════════════════════════════════════════════════════════
+                    RESPONSIVE BEHAVIOR
+═══════════════════════════════════════════════════════════════════
+
+MOBILE (≤768px):
+- Progress ring: 250×250px (smaller)
+- Ring radius: 115px
+- Timer text: 3rem (48px)
+- Buttons: Stack vertically, full width
+- Max button width: 250px
+
+DESKTOP (>768px):
+- Progress ring: 300×300px
+- Ring radius: 140px
+- Timer text: 4rem (64px)
+- Buttons: Side by side horizontally
+
+═══════════════════════════════════════════════════════════════════
+                        COLOR PALETTE
+═══════════════════════════════════════════════════════════════════
+
+Background:     #1a1a1a  (Dark gray/black)
+Text:           #ffffff  (White)
+Accent:         #ff6347  (Tomato red) - Primary action
+Secondary:      #2a2a2a  (Medium gray) - Secondary action
+Hover:          #ff7f5e  (Lighter tomato) - Button hover
+Dim:            #3a3a3a  (Light gray) - Secondary hover
+
+═══════════════════════════════════════════════════════════════════
+                    ACCESSIBILITY NOTES
+═══════════════════════════════════════════════════════════════════
+
+✓ High contrast text (white on dark)
+✓ Large, readable font size (4rem)
+✓ Clear button labels
+✓ Sufficient button padding for touch targets
+✓ Visual feedback on hover/active states
+✓ Semantic HTML structure
+✓ Keyboard accessible (buttons are native <button> elements)
+
+═══════════════════════════════════════════════════════════════════
+
+Implementation verified: 2026-02-02
+Status: ✓ COMPLETE
+Ready for: Browser testing

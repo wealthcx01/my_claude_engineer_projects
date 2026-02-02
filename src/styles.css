@@ -1,0 +1,156 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    padding: 2rem;
+}
+
+/* Timer Container */
+.timer-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Progress Ring */
+.progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+    stroke-dasharray: 879.646; /* 2 * PI * r = 2 * 3.14159 * 140 */
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.3s ease;
+    stroke-linecap: round;
+}
+
+.progress-ring-circle-bg {
+    opacity: 0.2;
+}
+
+/* Timer Display */
+.timer-display {
+    position: relative;
+    z-index: 10;
+}
+
+#timer-text {
+    font-size: 4rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn {
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn-primary {
+    background-color: #ff6347;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #ff7f5e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 99, 71, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background-color: #3a3a3a;
+    transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .timer-container {
+        width: 250px;
+        height: 250px;
+    }
+
+    .progress-ring {
+        width: 250px;
+        height: 250px;
+    }
+
+    .progress-ring circle {
+        r: 115;
+        cx: 125;
+        cy: 125;
+    }
+
+    .progress-ring-circle {
+        stroke-dasharray: 722.566; /* 2 * PI * 115 */
+    }
+
+    #timer-text {
+        font-size: 3rem;
+    }
+
+    .controls {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 250px;
+    }
+}

@@ -54,7 +54,6 @@ fi
 echo -e "${BLUE}Starting development server...${NC}"
 echo -e "${GREEN}Ready to develop!${NC}"
 echo ""
-echo "Next steps:"
-echo "1. Run 'npm run dev' to start the development server"
-echo "2. Open http://localhost:5173 (or the port shown above) in your browser"
-echo ""
+
+# Start the dev server
+npm run dev
