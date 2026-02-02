@@ -11,6 +11,7 @@ const FAST_MODE = window.location.search.includes('fast=true');
 // Timer state
 let currentSessionType = 'POMODORO';
 let pomodoroCount = 0; // Track number of pomodoros for long break
+let completedPomodoros = 0; // Track completed pomodoros today
 let timeRemaining = FAST_MODE ? 5 : SESSION_TYPES.POMODORO.duration;
 let totalTime = FAST_MODE ? 5 : SESSION_TYPES.POMODORO.duration;
 let timerInterval = null;
@@ -24,6 +25,7 @@ const startPauseBtn = document.getElementById('start-pause-btn');
 const resetBtn = document.getElementById('reset-btn');
 const skipBtn = document.getElementById('skip-btn');
 const progressCircle = document.querySelector('.progress-ring-circle');
+const completedDotsContainer = document.getElementById('completed-dots');
 
 // Progress ring calculation
 const radius = 140;
@@ -32,6 +34,76 @@ const circumference = 2 * Math.PI * radius;
 // Initialize progress ring
 progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
 progressCircle.style.strokeDashoffset = '0';
+
+// LocalStorage functions for completed pomodoros
+function getTodayDate() {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+}
+
+function loadCompletedPomodoros() {
+    const data = localStorage.getItem('pomodoroData');
+    if (!data) {
+        return 0;
+    }
+
+    try {
+        const { date, count } = JSON.parse(data);
+        const today = getTodayDate();
+
+        // Check if the stored date is today
+        if (date === today) {
+            return count;
+        } else {
+            // Date has changed, reset counter
+            return 0;
+        }
+    } catch (e) {
+        return 0;
+    }
+}
+
+function saveCompletedPomodoros(count) {
+    const data = {
+        date: getTodayDate(),
+        count: count
+    };
+    localStorage.setItem('pomodoroData', JSON.stringify(data));
+}
+
+function incrementCompletedPomodoros() {
+    completedPomodoros++;
+    saveCompletedPomodoros(completedPomodoros);
+    updateCompletedDotsDisplay();
+}
+
+function resetCompletedPomodoros() {
+    completedPomodoros = 0;
+    saveCompletedPomodoros(0);
+    updateCompletedDotsDisplay();
+}
+
+function updateCompletedDotsDisplay() {
+    // Clear existing dots
+    completedDotsContainer.innerHTML = '';
+
+    // Create a dot for each completed pomodoro
+    for (let i = 0; i < completedPomodoros; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'completed-dot';
+        dot.title = `Pomodoro ${i + 1}`;
+        completedDotsContainer.appendChild(dot);
+    }
+
+    // If no pomodoros completed, show a message
+    if (completedPomodoros === 0) {
+        const emptyMessage = document.createElement('div');
+        emptyMessage.textContent = 'No pomodoros completed yet';
+        emptyMessage.style.color = '#666';
+        emptyMessage.style.fontSize = '0.875rem';
+        completedDotsContainer.appendChild(emptyMessage);
+    }
+}
 
 // Format time as MM:SS
 function formatTime(seconds) {
@@ -115,6 +187,9 @@ function resetTimer() {
 function advanceToNextSession() {
     // Determine next session type
     if (currentSessionType === 'POMODORO') {
+        // Increment completed pomodoros when transitioning from work to break
+        incrementCompletedPomodoros();
+
         pomodoroCount++;
         // Every 4 pomodoros, take a long break
         if (pomodoroCount % 4 === 0) {
@@ -193,8 +268,12 @@ startPauseBtn.addEventListener('click', toggleTimer);
 resetBtn.addEventListener('click', resetTimer);
 skipBtn.addEventListener('click', skipSession);
 
+// Initialize completed pomodoros from localStorage
+completedPomodoros = loadCompletedPomodoros();
+
 // Initialize display
 updateDisplay();
 updateProgressRing();
 updateProgressRingColor();
 updateSessionLabelColor();
+updateCompletedDotsDisplay();
