@@ -72,6 +72,15 @@ body {
     letter-spacing: 0.15em;
     color: #ff6347;
     opacity: 0.8;
+    transition: color 0.3s ease;
+}
+
+.session-counter {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #999;
+    margin-top: 0.5rem;
+    letter-spacing: 0.05em;
 }
 
 #timer-text {
