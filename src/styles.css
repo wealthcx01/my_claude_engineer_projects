@@ -59,6 +59,19 @@ body {
 .timer-display {
     position: relative;
     z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.session-label {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #ff6347;
+    opacity: 0.8;
 }
 
 #timer-text {
@@ -87,6 +100,14 @@ body {
     transition: all 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    min-width: 120px;
+    touch-action: manipulation; /* Prevents double-tap zoom on mobile */
+    -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
+}
+
+.btn:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
 }
 
 .btn-primary {
@@ -102,20 +123,32 @@ body {
 
 .btn-primary:active {
     transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(255, 99, 71, 0.3);
 }
 
 .btn-secondary {
     background-color: #2a2a2a;
     color: #ffffff;
+    border: 2px solid #3a3a3a;
 }
 
 .btn-secondary:hover {
     background-color: #3a3a3a;
+    border-color: #4a4a4a;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 .btn-secondary:active {
     transform: translateY(0);
+    background-color: #2a2a2a;
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
 }
 
 /* Responsive Design */
@@ -140,6 +173,10 @@ body {
         stroke-dasharray: 722.566; /* 2 * PI * 115 */
     }
 
+    .session-label {
+        font-size: 0.875rem;
+    }
+
     #timer-text {
         font-size: 3rem;
     }
@@ -152,5 +189,7 @@ body {
     .btn {
         width: 100%;
         max-width: 250px;
+        padding: 1.25rem 2.5rem; /* Larger tap target on mobile */
+        font-size: 1.1rem;
     }
 }
